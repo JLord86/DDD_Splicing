@@ -1,0 +1,141 @@
+## Code to plot the panels for figure 2A and 2B which were then compiled in Adobe Illustrator
+## Run in RStudio
+
+library(ggplot2)
+library(plyr)
+library(reshape2)
+
+cbPalette3 <- c("#0072B2", "#D55E00", "#009E73", "#56B4E9", "#CC79A7", "#E69F00", "#F0E442", "#999999")
+
+## Plotting observed and expected values across the splicing regions for upper 3 panels of Figure 2A:
+## Dominant DD genes
+data <- read.table("dom_obs_exp_cov_adj.txt", header=T)
+data_melt <- melt(data, id=c("site", "position"))
+data_melt$site  <- factor(data_melt$site, levels=c("A-25" , "A-24" , "A-23" , "A-22" , "A-21" , "A-20" , "A-19" , "A-18" , "A-17" , "A-16" , "A-15" , "A-14" , "A-13" , "A-12" , "A-11" , "A-10" , "A-9" , "A-8" , "A-7" , "A-6" , "A-5" , "A-4" , "A-3" , "A-2" , "A-1" , "A" , "A+1" , "A+2" , "A+3" , "A+4" , "A+5" , "A+6" , "A+7" , "A+8" , "A+9" , "A+10", "D-10" , "D-9" , "D-8" , "D-7" , "D-6" , "D-5" , "D-4" , "D-3" , "D-2" , "D-1" , "D" , "D+1" , "D+2" , "D+3" , "D+4" , "D+5" , "D+6" , "D+7" , "D+8" , "D+9" , "D+10"))
+p <- ggplot(data=data_melt, aes(x=site, y=value, fill=variable))+ geom_bar(stat="identity", position="dodge") +
+    theme(axis.text=element_text(size=20), axis.title=element_text(size=18)) +
+    theme(legend.text=element_text(size=20)) +theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
+    xlab("Position") +
+    ylab("Observed and expected \n de novo mutations") +
+    ylim(0,40)+
+    scale_fill_manual(values = cbPalette3)  + theme(legend.position = "none")
+   p + theme(
+    panel.background = element_rect(fill = "transparent",colour = NA), 
+    panel.grid.minor = element_blank(), 
+    panel.grid.major = element_blank(),
+    plot.background = element_rect(fill = "transparent",colour = NA))
+ggsave("dom_genes_obs_v_exp_cov_adj.svg", width = 55, height = 8, units = "cm")
+
+## Recessive DD genes
+data <- read.table("rec_obs_exp_cov_adj.txt", header=T)
+data_melt <- melt(data, id=c("site", "position"))
+data_melt$site  <- factor(data_melt$site, levels=c("A-25" , "A-24" , "A-23" , "A-22" , "A-21" , "A-20" , "A-19" , "A-18" , "A-17" , "A-16" , "A-15" , "A-14" , "A-13" , "A-12" , "A-11" , "A-10" , "A-9" , "A-8" , "A-7" , "A-6" , "A-5" , "A-4" , "A-3" , "A-2" , "A-1" , "A" , "A+1" , "A+2" , "A+3" , "A+4" , "A+5" , "A+6" , "A+7" , "A+8" , "A+9" , "A+10", "D-10" , "D-9" , "D-8" , "D-7" , "D-6" , "D-5" , "D-4" , "D-3" , "D-2" , "D-1" , "D" , "D+1" , "D+2" , "D+3" , "D+4" , "D+5" , "D+6" , "D+7" , "D+8" , "D+9" , "D+10"))
+p <- ggplot(data=data_melt, aes(x=site, y=value, fill=variable))+ geom_bar(stat="identity", position="dodge") +
+    theme(axis.text=element_text(size=20), axis.title=element_text(size=18)) +
+    theme(legend.text=element_text(size=20)) +theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
+    xlab("Position") +
+    ylab("Observed and expected \n de novo mutations") +
+    ylim(0,40)+
+    scale_fill_manual(values = cbPalette3) + theme(legend.position = "none")
+   p + theme(
+    panel.background = element_rect(fill = "transparent",colour = NA), 
+    panel.grid.minor = element_blank(), 
+    panel.grid.major = element_blank(),
+    plot.background = element_rect(fill = "transparent",colour = NA))
+ggsave("rec_genes_obs_v_exp_cov_adj.svg", width = 55, height = 8, units = "cm")
+
+## non-DDG2P genes
+data <- read.table("nD_obs_exp_cov_adj.txt", header=T)
+data_melt <- melt(data, id=c("site", "position"))
+data_melt$site  <- factor(data_melt$site, levels=c("A-25" , "A-24" , "A-23" , "A-22" , "A-21" , "A-20" , "A-19" , "A-18" , "A-17" , "A-16" , "A-15" , "A-14" , "A-13" , "A-12" , "A-11" , "A-10" , "A-9" , "A-8" , "A-7" , "A-6" , "A-5" , "A-4" , "A-3" , "A-2" , "A-1" , "A" , "A+1" , "A+2" , "A+3" , "A+4" , "A+5" , "A+6" , "A+7" , "A+8" , "A+9" , "A+10", "D-10" , "D-9" , "D-8" , "D-7" , "D-6" , "D-5" , "D-4" , "D-3" , "D-2" , "D-1" , "D" , "D+1" , "D+2" , "D+3" , "D+4" , "D+5" , "D+6" , "D+7" , "D+8" , "D+9" , "D+10"))
+p <- ggplot(data=data_melt, aes(x=site, y=value, fill=variable))+ geom_bar(stat="identity", position="dodge") +
+    theme(axis.text=element_text(size=20), axis.title=element_text(size=18)) +
+    theme(legend.text=element_text(size=20)) +theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
+    xlab("Position") +
+    ylab("Observed and expected \n de novo mutations") +
+    ylim(0,40)+
+    scale_fill_manual(values = cbPalette3)  + theme(legend.position = "none")
+   p + theme(
+    panel.background = element_rect(fill = "transparent",colour = NA), 
+    panel.grid.minor = element_blank(), 
+    panel.grid.major = element_blank(),
+    plot.background = element_rect(fill = "transparent",colour = NA))
+ggsave("nD_genes_obs_v_exp_cov_adj.svg", width = 55, height = 8, units = "cm")
+
+
+## Plotting FDR corrected poisson p-values for lower panel of Figure 2A:
+cbPalette <- c("#56B4E9","#E69F00","#009E73", "#0072B2",  "#CC79A7",  "#D55E00",   "#F0E442",  "#999999")
+data <- read.table("DDG2P_split_FDR_adj_pvals_to_plot_cov_adj_minuslog10_Aug18.txt", header = T)
+data$Ann  <- factor(data$Ann, levels=c("A-25" , "A-24" , "A-23" , "A-22" , "A-21" , "A-20" , "A-19" , "A-18" , "A-17" , "A-16" , "A-15" , "A-14" , "A-13" , "A-12" , "A-11" , "A-10" , "A-9" , "A-8" , "A-7" , "A-6" , "A-5" , "A-4" , "A-3" , "A-2" , "A-1" , "A" , "A+1" , "A+2" , "A+3" , "A+4" , "A+5" , "A+6" , "A+7" , "A+8" , "A+9" , "A+10", "D-10" , "D-9" , "D-8" , "D-7" , "D-6" , "D-5" , "D-4" , "D-3" , "D-2" , "D-1" , "D" , "D+1" , "D+2" , "D+3" , "D+4" , "D+5" , "D+6" , "D+7" , "D+8" , "D+9" , "D+10"))
+plot1 <-
+ggplot(data, aes(data)) + 
+geom_point(alpha = 0.9, size = 4, aes(x = Ann, y=valAdjminuslog10, colour=Group, shape = Group)) +
+scale_colour_manual(values = cbPalette)+
+geom_hline(yintercept=1.301029996, color = "red", linetype="dashed") +
+scale_y_continuous(breaks = c(14,12,10,8,6,4,2,0))+
+   theme(axis.text=element_text(size=20), axis.title=element_text(size=18)) +
+   theme(legend.text=element_text(size=20)) +
+   xlab("Position") +
+   ylab("FDR adjusted -log10\nPoisson p-values") +
+    theme(legend.text=element_text(size=20)) +theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+   plot1 + theme(
+    panel.background = element_rect(fill = "transparent",colour = NA), 
+    panel.grid.minor = element_blank(), 
+    panel.grid.major = element_blank(),
+    plot.background = element_rect(fill = "transparent",colour = NA))
+ggsave("poisson_obs_v_exp_diag_undiag_withleg_withleg_Aug18.svg",width = 55, height = 8, units = "cm")
+
+
+## Plotting compiled data for the Polypyrimidine tract region (PolyPy) for Figure 2B:
+## Dominant DD genes
+data <- read.table("PPT_to_plot_dom.txt", header=T)
+data_melt <- melt(data, id=c("site", "position"))
+p <- ggplot(data=data_melt, aes(x=site, y=value, fill=variable))+ geom_bar(stat="identity", position="dodge") +
+    theme(axis.text=element_text(size=20), axis.title=element_blank(), axis.title=element_text(size=30)) +
+    theme(legend.text=element_text(size=20)) +
+    xlab("Position") +
+    ylab("Observed and expected \n de novo mutations") +
+    ylim(0,9)+
+    scale_fill_manual(values = cbPalette3)  + theme(legend.position = "none")
+   p + theme(
+    panel.background = element_rect(fill = "transparent",colour = NA), 
+    panel.grid.minor = element_blank(), 
+    panel.grid.major = element_blank(),
+    plot.background = element_rect(fill = "transparent",colour = NA))
+ggsave("PPT_obs_v_exp_cov_adj_dom.svg", width = 8, height = 9, units = "cm")
+
+## Recessive DD genes
+data <- read.table("PPT_to_plot_rec.txt", header=T)
+data_melt <- melt(data, id=c("site", "position"))
+p <- ggplot(data=data_melt, aes(x=site, y=value, fill=variable))+ geom_bar(stat="identity", position="dodge") +
+    theme(axis.text=element_text(size=20), axis.title=element_blank(), axis.title=element_text(size=30)) +
+    theme(legend.text=element_text(size=20)) +
+    xlab("Position") +
+    ylab("Observed and expected \n de novo mutations") +
+    ylim(0,20)+
+    scale_fill_manual(values = cbPalette3)  + theme(legend.position = "none")
+   p + theme(
+    panel.background = element_rect(fill = "transparent",colour = NA), 
+    panel.grid.minor = element_blank(), 
+    panel.grid.major = element_blank(),
+    plot.background = element_rect(fill = "transparent",colour = NA))
+ggsave("PPT_obs_v_exp_cov_adj_rec.svg", width = 8, height = 9, units = "cm")
+
+## non-DDG2P genes
+data <- read.table("PPT_to_plot_nD.txt", header=T)
+data_melt <- melt(data, id=c("site", "position"))
+p <- ggplot(data=data_melt, aes(x=site, y=value, fill=variable))+ geom_bar(stat="identity", position="dodge") +
+    theme(axis.text=element_text(size=20), axis.title=element_blank(), axis.title=element_text(size=30)) +
+    theme(legend.text=element_text(size=20)) +
+    xlab("Position") +
+    ylab("Observed and expected \n de novo mutations") +
+    ylim(0,160)+
+    scale_fill_manual(values = cbPalette3)  + theme(legend.position = "none")
+   p + theme(
+    panel.background = element_rect(fill = "transparent",colour = NA), 
+    panel.grid.minor = element_blank(), 
+    panel.grid.major = element_blank(),
+    plot.background = element_rect(fill = "transparent",colour = NA))
+ggsave("PPT_obs_v_exp_cov_adj_nD.svg", width = 8, height = 9, units = "cm")
+
+## Images combined and axis labels added in Adobe Illustrator

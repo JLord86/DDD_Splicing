@@ -1,0 +1,3 @@
+position	site	expected	observed
+1	PyPu	52.7535237	56
+2	Other	159.4452724	159
